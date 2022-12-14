@@ -7,14 +7,33 @@ This project contains examples and instructions for:
 1. [Terraform](https://www.terraform.io) general usage
 2. Creating [MongoDB Atlas cluster](https://www.mongodb.com/docs/atlas/getting-started/) using Terraform
 
+Terraform has [several use cases](https://developer.hashicorp.com/terraform/intro/use-cases) in IT Industries.
+Both examples on this repository are ready to be used locally on a computer as a demonstration of Terraform usage.
+Please refer to the Terraform docs for other use cases of automation of Terraform.
+
 ## 🛠️ Prerequisites
 
+- Clone this repository
+  ```bash
+  git clone https://github.com/leogomesdev/mongodb-terraform-deployment
+  ```
 - Install the [Terraform CLI](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 - Prerequisites for **example 1**:
   - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running locally
 - Prerequisites for **example 2**:
   - A [MongoDB Atlas Account (Free)](https://cloud.mongodb.com/) with access to manage your desired organization
-  - A payment method is required for your organization, as the MongoDB Terraform Provider can't be used for creating M0 instances (free database instances). You can either check [MongoDB Billing information](https://www.mongodb.com/docs/atlas/billing/#view-and-edit-your-billing-profile) for setting up a payment method or integrate payment with your AWS account through [AWS Self-Serve Marketplace](https://www.mongodb.com/docs/atlas/billing/aws-self-serve-marketplace/)
+  - Your organization ID:
+    - Go to the Settings page and use the copy button
+      ![Instructions to copy organization id](docs/images/instructions-copy-organization-id.png)
+  - API Keys:
+    - Go to Access Manager > Organization Access on the menu; then go to the API Keys tab and use the "Create API Key" button; insert a description and select the role **Organization Project Creator**; click on next; copy both values to a safe place
+      ![Instructions to create API Key](docs/images/instructions-generate-api-key.png)
+
+**Disclaimer:**
+
+- **Free tier cluster creation (M0) is supported** for the [resource mongodbatlas_cluster](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/resources/cluster).
+- However, if your organization needs a bigger tier (paid), a payment method may be required for your organization on your Atlas Account.
+- You could either check [MongoDB Billing information](https://www.mongodb.com/docs/atlas/billing/#view-and-edit-your-billing-profile) for setting up a payment method or integrate payment with your AWS account through [AWS Self-Serve Marketplace](https://www.mongodb.com/docs/atlas/billing/aws-self-serve-marketplace/)
 
 ---
 
@@ -22,7 +41,7 @@ This project contains examples and instructions for:
 
 - Access the project folder:
   ```bash
-  cd docker-container-example
+  cd 01-docker-container-example
   ```
 - Create a new [Terraform Workspace](https://developer.hashicorp.com/terraform/language/state/workspaces), by running the command:
   ```bash
@@ -64,7 +83,53 @@ This project contains examples and instructions for:
 
 ---
 
+## 🌐 Example 2: Using Terraform for MongoDB Atlas Deployment
+
+- Access the project folder:
+  ```bash
+  cd 02-mongodb-example
+  ```
+- Define your MongoDB Atlas API Keys as environment variables:
+  ```bash
+  export MONGODB_ATLAS_PUBLIC_KEY="XX"
+  export MONGODB_ATLAS_PRIVATE_KEY="XX"
+  ```
+- Define your Terraform variables on **terraform.tfvars** file:
+  ```bash
+  cp -v terraform.tfvars.example terraform.tfvars
+  ```
+- Create a new [Terraform Workspace](https://developer.hashicorp.com/terraform/language/state/workspaces), by running the command:
+  ```bash
+  terraform workspace new local
+  ```
+- Prepare your working directory for other commands (install provider plugins):
+  ```bash
+  terraform init
+  ```
+- Create or update infrastructure (skipping interactive approval):
+  ```bash
+  terraform apply -auto-aprove
+  ```
+- After the success message, you are ready to use your database. On the MongoDB Atlas website you can get more info about how to connect with your database:
+  ![Instructions to connect with your cluster](docs/images/instructions-connect-to-cluster.png)
+
+- If using mongo shell, just connect with the cluster and run your MongoDB commands:
+  ```bash
+  mongosh "mongodb+srv://cluster01.<REPLACE>.mongodb.net/myApp" --username "my_user" --password "pass986@41"
+  ```
+  ```javascript
+  db.products.insertOne( { item: "card", qty: 15 } );
+  db.products.find();
+  ```
+- Destroy previously-created infrastructure:
+  ```bash
+  terraform destroy
+  ```
+
+---
+
 ### 📝 Docs and external resources:
 
-- [Docker Provider](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs)
-- [MongoDB Atlas Provider](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs)
+- [Docs: Create an Atlas Cluster from a Template using Terraform](https://www.mongodb.com/docs/mongodb-vscode/create-cluster-terraform/)
+- [Docker Terraform Provider](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs)
+- [MongoDB Atlas Terraform Provider](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs)

@@ -1,0 +1,12 @@
+mongodb_atlas_org_id = "631a8105b9724e4848af6ca7" // copy this from Settings page on MongoDB Atlas Website
+mongodb_atlas_project_name = "My Super App"
+mongodb_atlas_cluster_name = "Cluster01"
+mongodb_atlas_backing_provider_name = "AWS"
+mongodb_atlas_provider_region_name = "US_EAST_1"
+mongodb_atlas_provider_instance_size_name = "M0"
+mongodb_atlas_mongo_db_major_version = "6.0"
+mongodb_atlas_database_username = "my_user"
+mongodb_atlas_database_user_password = "pass986@41"
+mongodb_atlas_auth_database_name = "admin"
+mongodb_atlas_auth_database_roles_0_role_name = "atlasAdmin"
+mongodb_atlas_auth_database_roles_0_database_name = "admin"
