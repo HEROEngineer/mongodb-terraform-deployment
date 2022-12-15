@@ -5,11 +5,16 @@
 This project contains examples and instructions for:
 
 1. [Terraform](https://www.terraform.io) general usage
-2. Creating [MongoDB Atlas cluster](https://www.mongodb.com/docs/atlas/getting-started/) using Terraform
+2. Creating [MongoDB Atlas Cluster](https://www.mongodb.com/docs/atlas/getting-started/) using Terraform
 
 Terraform has [several use cases](https://developer.hashicorp.com/terraform/intro/use-cases) in IT Industries.
 Both examples on this repository are ready to be used locally on a computer as a demonstration of Terraform usage.
 Please refer to the Terraform docs for other use cases of automation of Terraform.
+
+⚠ **Important:** The example on this repo for the MongoDB Cluster creates a *cluster that can be accessed from any IP address in the world (0.0.0.0/0).*
+This is just an example use case.
+**Do not use the same config in a production environment.**
+When running in prod, you must protect your applications and restrict access only to IP addresses or Security Group IDs that are really required.
 
 ## 🛠️ Prerequisites
 
@@ -31,9 +36,10 @@ Please refer to the Terraform docs for other use cases of automation of Terrafor
 
 **Disclaimer:**
 
-- **Free tier cluster creation (M0) is supported** for the [resource mongodbatlas_cluster](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/resources/cluster).
-- However, if your organization needs a bigger tier (paid), a payment method may be required for your organization on your Atlas Account.
-- You could either check [MongoDB Billing information](https://www.mongodb.com/docs/atlas/billing/#view-and-edit-your-billing-profile) for setting up a payment method or integrate payment with your AWS account through [AWS Self-Serve Marketplace](https://www.mongodb.com/docs/atlas/billing/aws-self-serve-marketplace/)
+**Free tier cluster creation (M0) is supported** for the [resource mongodbatlas_cluster](https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/resources/cluster).
+
+However, if your organization needs a bigger tier (paid), a payment method may be required for your organization on your Atlas Account.
+If this is your case, you could either check [MongoDB Billing information](https://www.mongodb.com/docs/atlas/billing/#view-and-edit-your-billing-profile) for setting up a payment method or integrate payment with your AWS account through [AWS Self-Serve Marketplace](https://www.mongodb.com/docs/atlas/billing/aws-self-serve-marketplace/)
 
 ---
 
@@ -94,7 +100,7 @@ Please refer to the Terraform docs for other use cases of automation of Terrafor
   export MONGODB_ATLAS_PUBLIC_KEY="XX"
   export MONGODB_ATLAS_PRIVATE_KEY="XX"
   ```
-- Define your Terraform variables on **terraform.tfvars** file:
+- Define your Terraform variables on **terraform.tfvars** file. After copying the example file with the command below, **you must edit the file to add your mongodb_atlas_org_id** and update any desired variable.
   ```bash
   cp -v terraform.tfvars.example terraform.tfvars
   ```
